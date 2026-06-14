@@ -1,5 +1,6 @@
 package com.proyecto.novalearn;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.proyecto.novalearn.data.Curso;
 import com.proyecto.novalearn.data.DBHelper;
+import com.proyecto.novalearn.ui.auth.LoginActivity;
 import com.proyecto.novalearn.utils.SessionManager;
 
 import org.json.JSONArray;
@@ -17,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,14 +28,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sessionManager = new SessionManager(this);
+
+        // Redirigir a Login si no hay sesión activa
+        if (!sessionManager.haySesion()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
         dbHelper = new DBHelper(this);
-        sessionManager = new SessionManager(this);
 
-        if (sessionManager.esPrimerInicio()) {
+        // Solo cargar cursos si la BD está vacía (evita duplicados al cerrar/abrir sesión)
+        if (!dbHelper.tieneCursos()) {
             cargarCursosDesdeJson();
-            sessionManager.marcarPrimerInicio();
         }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()

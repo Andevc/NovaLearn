@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5C6BC0</color>
-    <color name="colorPrimaryVariant">#3949AB</color>
-    <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorSecondary">#26C6DA</color>
-    <color name="colorOnSecondary">#000000</color>
-    <color name="colorBackground">#F5F5F5</color>
-    <color name="colorSurface">#FFFFFF</color>
-    <color name="colorError">#EF5350</color>
-    <color name="textPrimary">#212121</color>
-    <color name="textSecondary">#757575</color>
+    <color name="colorPrimary">#FF6B47</color>
+    <color name="colorPrimaryDark">#E85530</color>
+    <color name="colorSecondary">#7C5CBF</color>
+    <color name="colorError">#E53935</color>
+
+    <color name="textPrimary">#1A1A2E</color>
+    <color name="textSecondary">#888888</color>
+    <color name="divider">#F5D0C0</color>
     <color name="cardBackground">#FFFFFF</color>
-    <color name="divider">#E0E0E0</color>
+    <color name="screenBackground">#FFF8F5</color>
+    <color name="coralLight">#FFE8E2</color>
+    <color name="purpleLight">#F0ECFF</color>
 </resources>

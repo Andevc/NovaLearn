@@ -3,34 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorBackground">
+    android:background="@color/screenBackground">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mis Cursos"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
         android:background="@color/colorPrimary"
-        android:padding="16dp"/>
+        android:padding="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mis Cursos"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cursos en los que estás inscrito"
+            android:textSize="12sp"
+            android:textColor="#FFCFC4"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aún no estás inscrito en ningún curso."
-        android:textSize="15sp"
+        android:text="Aún no estás inscrito en ningún curso.\nExplora el catálogo y empieza hoy."
+        android:textSize="14sp"
         android:textColor="@color/textSecondary"
         android:gravity="center"
-        android:padding="32dp"
+        android:padding="40dp"
+        android:lineSpacingExtra="4dp"
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMisCursos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp"
         android:clipToPadding="false"/>
 
 </LinearLayout>

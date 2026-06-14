@@ -2,6 +2,7 @@ package com.proyecto.novalearn.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = "HomeFragment";
+
     private DBHelper dbHelper;
     private CursoAdapter adapter;
     private List<Curso> listaCursos;
@@ -38,29 +41,40 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dbHelper = new DBHelper(requireContext());
-        listaCursos = dbHelper.obtenerCursos();
+        try {
+            dbHelper = new DBHelper(requireContext());
+            listaCursos = dbHelper.obtenerCursos();
+            Log.d(TAG, "Cursos cargados: " + listaCursos.size());
 
-        RecyclerView rv = view.findViewById(R.id.rvCursos);
-        rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+            RecyclerView rv = view.findViewById(R.id.rvCursos);
+            rv.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new CursoAdapter(listaCursos, curso -> {
-            Intent intent = new Intent(requireContext(), CourseDetailActivity.class);
-            intent.putExtra("curso_id", curso.getId());
-            startActivity(intent);
-        });
-        rv.setAdapter(adapter);
+            adapter = new CursoAdapter(listaCursos, curso -> {
+                try {
+                    Log.d(TAG, "Click en curso id=" + curso.getId() + " nombre=" + curso.getNombre());
+                    Intent intent = new Intent(requireContext(), CourseDetailActivity.class);
+                    intent.putExtra("curso_id", curso.getId());
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error al abrir detalle del curso", e);
+                }
+            });
+            rv.setAdapter(adapter);
 
-        SearchView searchView = view.findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
+            SearchView searchView = view.findViewById(R.id.searchView);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) { return false; }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filtrar(newText);
-                return true;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    adapter.filtrar(newText);
+                    return true;
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error en onViewCreated", e);
+        }
     }
 }

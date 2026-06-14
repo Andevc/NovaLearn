@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Atributos personalizados existentes -->
+    <attr name="appTextPrimary" format="color" />
+    <attr name="appTextSecondary" format="color" />
+    <attr name="appDivider" format="color" />
+    <attr name="appCardBackground" format="color" />
+    <attr name="appScreenBackground" format="color" />
+
+    <!-- Atributos requeridos por los layouts que faltaban -->
+    <attr name="colorBackground" format="color" />
+    <attr name="colorSurface" format="color" />
+</resources>

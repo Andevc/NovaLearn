@@ -30,6 +30,7 @@
         <!-- Course Detail -->
         <activity
             android:name=".ui.detail.CourseDetailActivity"
+            android:theme="@style/Theme.NovaLearn.NoActionBar"
             android:exported="false" />
 
         <!-- Auth0 callback -->
