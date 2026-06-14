@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">novalearn</string>
+    <string name="app_name">NovaLearn</string>
+    <string name="auth0_domain">dev-04eimw1dww1xo73w.us.auth0.com</string>
+    <string name="auth0_client_id">y9FumQ73OnMrZUfMhScTkV6MspCoPmvn</string>
 </resources>

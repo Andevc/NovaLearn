@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "nombre": "Introducción a Android",
+    "descripcion": "Aprende a desarrollar aplicaciones móviles nativas con Java y Android Studio desde cero.",
+    "instructor": "Dr. Juan Miranda",
+    "duracion": "40 horas",
+    "categoria": "Desarrollo Móvil",
+    "lecciones": [
+      {"id": 1, "titulo": "¿Qué es Android?", "contenido": "Android es un sistema operativo móvil basado en Linux."},
+      {"id": 2, "titulo": "Instalación de Android Studio", "contenido": "Descarga e instala Android Studio desde developer.android.com."},
+      {"id": 3, "titulo": "Tu primera Activity", "contenido": "Una Activity representa una pantalla en tu aplicación Android."}
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Diseño UX/UI Mobile",
+    "descripcion": "Principios de diseño de interfaces para aplicaciones móviles con Material Design 3.",
+    "instructor": "Lic. Ana Flores",
+    "duracion": "25 horas",
+    "categoria": "Diseño",
+    "lecciones": []
+  },
+  {
+    "id": 3,
+    "nombre": "Base de Datos con SQLite",
+    "descripcion": "Manejo de bases de datos locales en Android usando SQLite y Room.",
+    "instructor": "Ing. Carlos Quispe",
+    "duracion": "30 horas",
+    "categoria": "Bases de Datos",
+    "lecciones": []
+  },
+  {
+    "id": 4,
+    "nombre": "Python para Ciencia de Datos",
+    "descripcion": "Introducción a Python con enfoque en análisis de datos y visualización.",
+    "instructor": "MSc. Laura Mamani",
+    "duracion": "50 horas",
+    "categoria": "Ciencia de Datos",
+    "lecciones": []
+  },
+  {
+    "id": 5,
+    "nombre": "Desarrollo Web con React",
+    "descripcion": "Crea interfaces web modernas con React y JavaScript.",
+    "instructor": "Ing. Pedro Condori",
+    "duracion": "35 horas",
+    "categoria": "Desarrollo Web",
+    "lecciones": []
+  },
+  {
+    "id": 6,
+    "nombre": "Marketing Digital",
+    "descripcion": "Estrategias de marketing en redes sociales, SEO y publicidad digital.",
+    "instructor": "Lic. Sofia Vargas",
+    "duracion": "20 horas",
+    "categoria": "Marketing",
+    "lecciones": []
+  }
+]

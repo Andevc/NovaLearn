@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.proyecto.novalearn.ui.home.HomeFragment"
+        android:label="Inicio"/>
+
+    <fragment
+        android:id="@+id/myCoursesFragment"
+        android:name="com.proyecto.novalearn.ui.mycourses.MyCoursesFragment"
+        android:label="Mis Cursos"/>
+
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.proyecto.novalearn.ui.report.ReportFragment"
+        android:label="Progreso"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.proyecto.novalearn.ui.profile.ProfileFragment"
+        android:label="Perfil"/>
+
+</navigation>

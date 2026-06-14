@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#5C6BC0</color>
+    <color name="colorPrimaryVariant">#3949AB</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#26C6DA</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorError">#EF5350</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="divider">#E0E0E0</color>
 </resources>
