@@ -35,10 +35,12 @@ public class ReportFragment extends Fragment {
 
         int total = dbHelper.contarCursos();
         int inscritos = dbHelper.contarInscritos(email);
+        int disponibles = total - inscritos;
         int porcentaje = total > 0 ? (inscritos * 100) / total : 0;
 
         ((TextView) view.findViewById(R.id.tvTotalCursos)).setText(String.valueOf(total));
         ((TextView) view.findViewById(R.id.tvInscritos)).setText(String.valueOf(inscritos));
+        ((TextView) view.findViewById(R.id.tvDisponibles)).setText(String.valueOf(disponibles));
         ((TextView) view.findViewById(R.id.tvPorcentaje)).setText(porcentaje + "%");
         ((ProgressBar) view.findViewById(R.id.progressBar)).setProgress(porcentaje);
     }

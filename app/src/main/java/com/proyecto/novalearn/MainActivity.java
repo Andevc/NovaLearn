@@ -11,6 +11,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.proyecto.novalearn.data.Curso;
 import com.proyecto.novalearn.data.DBHelper;
+import com.proyecto.novalearn.data.Leccion;
 import com.proyecto.novalearn.ui.auth.LoginActivity;
 import com.proyecto.novalearn.utils.SessionManager;
 
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        // Redirigir a Login si no hay sesión activa
         if (!sessionManager.haySesion()) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
-        // Solo cargar cursos si la BD está vacía (evita duplicados al cerrar/abrir sesión)
         if (!dbHelper.tieneCursos()) {
             cargarCursosDesdeJson();
         }
@@ -75,7 +74,20 @@ public class MainActivity extends AppCompatActivity {
                         obj.getString("duracion"),
                         obj.getString("categoria")
                 );
-                dbHelper.insertarCurso(curso);
+                long cursoId = dbHelper.insertarCurso(curso);
+
+                if (obj.has("lecciones")) {
+                    JSONArray lecciones = obj.getJSONArray("lecciones");
+                    for (int j = 0; j < lecciones.length(); j++) {
+                        JSONObject lec = lecciones.getJSONObject(j);
+                        Leccion leccion = new Leccion(
+                                0,
+                                lec.getString("titulo"),
+                                lec.getString("contenido")
+                        );
+                        dbHelper.insertarLeccion((int) cursoId, leccion);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

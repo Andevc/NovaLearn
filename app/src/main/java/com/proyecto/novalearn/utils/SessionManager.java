@@ -10,7 +10,6 @@ public class SessionManager {
     private static final String KEY_NAME = "user_name";
     private static final String KEY_PICTURE = "user_picture";
     private static final String KEY_TOKEN = "auth_token";
-    private static final String KEY_PRIMER_INICIO = "primer_inicio";
 
     private final SharedPreferences prefs;
 
@@ -33,11 +32,6 @@ public class SessionManager {
     public String getToken() { return prefs.getString(KEY_TOKEN, null); }
 
     public boolean haySesion() { return getEmail() != null; }
-
-    public boolean esPrimerInicio() { return prefs.getBoolean(KEY_PRIMER_INICIO, true); }
-    public void marcarPrimerInicio() {
-        prefs.edit().putBoolean(KEY_PRIMER_INICIO, false).apply();
-    }
 
     public void cerrarSesion() {
         prefs.edit().clear().apply();

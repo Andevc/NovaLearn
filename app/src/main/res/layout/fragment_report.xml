@@ -41,6 +41,7 @@
             android:padding="16dp"
             android:paddingBottom="8dp">
 
+            <!-- Total cursos -->
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -66,17 +67,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cursos"
+                        android:text="Total"
                         android:textSize="12sp"
                         android:textColor="@color/colorPrimary"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Inscritos -->
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:cardCornerRadius="18dp"
                 app:cardBackgroundColor="@color/purpleLight"
                 app:cardElevation="0dp">
@@ -103,6 +106,38 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Disponibles -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardCornerRadius="18dp"
+                app:cardBackgroundColor="@color/cardBackground"
+                app:cardElevation="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/tvDisponibles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/textPrimary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Disponibles"
+                        android:textSize="12sp"
+                        android:textColor="@color/textSecondary"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -123,7 +158,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Progreso general"
+                    android:text="Cursos inscritos del catálogo"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/textPrimary"

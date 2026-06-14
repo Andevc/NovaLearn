@@ -33,13 +33,6 @@ public class Auth0Manager {
         return getInstance(context).auth0;
     }
 
-    public void login(Activity activity, Callback<Credentials, AuthenticationException> callback) {
-        WebAuthProvider.login(auth0)
-                .withScheme("com.proyecto.novalearn")
-                .withScope("openid profile email")
-                .start(activity, callback);
-    }
-
     public void logout(Activity activity, Callback<Void, AuthenticationException> callback) {
         WebAuthProvider.logout(auth0)
                 .withScheme("com.proyecto.novalearn")

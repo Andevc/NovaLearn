@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,16 +18,13 @@ import com.proyecto.novalearn.R;
 import com.proyecto.novalearn.data.Curso;
 import com.proyecto.novalearn.data.DBHelper;
 import com.proyecto.novalearn.ui.detail.CourseDetailActivity;
+import com.proyecto.novalearn.utils.SessionManager;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-
-    private DBHelper dbHelper;
-    private CursoAdapter adapter;
-    private List<Curso> listaCursos;
 
     @Nullable
     @Override
@@ -42,16 +39,20 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            dbHelper = new DBHelper(requireContext());
-            listaCursos = dbHelper.obtenerCursos();
+            // Nombre del usuario en el saludo
+            SessionManager sessionManager = new SessionManager(requireContext());
+            String nombre = sessionManager.getNombre();
+            ((TextView) view.findViewById(R.id.tvHola)).setText("Hola, " + nombre);
+
+            DBHelper dbHelper = new DBHelper(requireContext());
+            List<Curso> listaCursos = dbHelper.obtenerCursos();
             Log.d(TAG, "Cursos cargados: " + listaCursos.size());
 
             RecyclerView rv = view.findViewById(R.id.rvCursos);
             rv.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-            adapter = new CursoAdapter(listaCursos, curso -> {
+            CursoAdapter adapter = new CursoAdapter(listaCursos, curso -> {
                 try {
-                    Log.d(TAG, "Click en curso id=" + curso.getId() + " nombre=" + curso.getNombre());
                     Intent intent = new Intent(requireContext(), CourseDetailActivity.class);
                     intent.putExtra("curso_id", curso.getId());
                     startActivity(intent);
@@ -60,18 +61,6 @@ public class HomeFragment extends Fragment {
                 }
             });
             rv.setAdapter(adapter);
-
-            SearchView searchView = view.findViewById(R.id.searchView);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) { return false; }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    adapter.filtrar(newText);
-                    return true;
-                }
-            });
 
         } catch (Exception e) {
             Log.e(TAG, "Error en onViewCreated", e);

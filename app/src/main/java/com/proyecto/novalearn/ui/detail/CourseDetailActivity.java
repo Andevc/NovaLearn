@@ -18,7 +18,10 @@ import com.google.android.material.button.MaterialButton;
 import com.proyecto.novalearn.R;
 import com.proyecto.novalearn.data.Curso;
 import com.proyecto.novalearn.data.DBHelper;
+import com.proyecto.novalearn.data.Leccion;
 import com.proyecto.novalearn.utils.SessionManager;
+
+import java.util.List;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -67,6 +70,8 @@ public class CourseDetailActivity extends AppCompatActivity {
 
             RecyclerView rvLecciones = findViewById(R.id.rvLecciones);
             rvLecciones.setLayoutManager(new LinearLayoutManager(this));
+            List<Leccion> lecciones = dbHelper.obtenerLeccionesDeCurso(curso.getId());
+            rvLecciones.setAdapter(new LeccionAdapter(lecciones));
 
             btnInscribirse = findViewById(R.id.btnInscribirse);
             actualizarBoton();
