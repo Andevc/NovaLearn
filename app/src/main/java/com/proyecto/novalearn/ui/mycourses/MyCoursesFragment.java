@@ -21,6 +21,11 @@ import java.util.List;
 
 public class MyCoursesFragment extends Fragment {
 
+    private RecyclerView rv;
+    private TextView tvEmpty;
+    private DBHelper dbHelper;
+    private SessionManager sessionManager;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -32,23 +37,28 @@ public class MyCoursesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dbHelper = new DBHelper(requireContext());
+        sessionManager = new SessionManager(requireContext());
+        tvEmpty = view.findViewById(R.id.tvEmpty);
+        rv = view.findViewById(R.id.rvMisCursos);
+        rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+        cargarCursos();
+    }
 
-        DBHelper dbHelper = new DBHelper(requireContext());
-        SessionManager sessionManager = new SessionManager(requireContext());
-        String email = sessionManager.getEmail();
+    @Override
+    public void onResume() {
+        super.onResume();
+        cargarCursos();
+    }
 
-        List<Curso> misCursos = dbHelper.obtenerCursosInscritos(email);
-
-        TextView tvEmpty = view.findViewById(R.id.tvEmpty);
-        RecyclerView rv = view.findViewById(R.id.rvMisCursos);
-
+    private void cargarCursos() {
+        List<Curso> misCursos = dbHelper.obtenerCursosInscritos(sessionManager.getEmail());
         if (misCursos.isEmpty()) {
             tvEmpty.setVisibility(View.VISIBLE);
             rv.setVisibility(View.GONE);
         } else {
             tvEmpty.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
-            rv.setLayoutManager(new LinearLayoutManager(requireContext()));
             rv.setAdapter(new MisCursosAdapter(misCursos));
         }
     }

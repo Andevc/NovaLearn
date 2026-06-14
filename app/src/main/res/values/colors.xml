@@ -12,4 +12,7 @@
     <color name="screenBackground">#FFF8F5</color>
     <color name="coralLight">#FFE8E2</color>
     <color name="purpleLight">#F0ECFF</color>
+
+    <color name="colorExpandedBg">#EEF0FF</color>
+
 </resources>

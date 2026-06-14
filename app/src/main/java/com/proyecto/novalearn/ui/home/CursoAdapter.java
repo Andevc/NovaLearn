@@ -1,8 +1,10 @@
 package com.proyecto.novalearn.ui.home;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,20 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.proyecto.novalearn.R;
 import com.proyecto.novalearn.data.Curso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.ViewHolder> {
 
     public interface OnCursoClick { void onClick(Curso curso); }
 
-    private List<Curso> listaOriginal;
-    private List<Curso> listaFiltrada;
+    private final List<Curso> lista;
     private final OnCursoClick listener;
 
     public CursoAdapter(List<Curso> lista, OnCursoClick listener) {
-        this.listaOriginal = lista;
-        this.listaFiltrada = new ArrayList<>(lista);
+        this.lista = lista;
         this.listener = listener;
     }
 
@@ -38,42 +37,37 @@ public class CursoAdapter extends RecyclerView.Adapter<CursoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Curso curso = listaFiltrada.get(position);
+        Curso curso = lista.get(position);
         holder.tvNombre.setText(curso.getNombre());
         holder.tvInstructor.setText(curso.getInstructor());
         holder.tvDuracion.setText(curso.getDuracion());
-        holder.tvCategoria.setText(curso.getCategoria());
+
+        // Cargar ícono por nombre del drawable
+        Context ctx = holder.itemView.getContext();
+        int resId = ctx.getResources().getIdentifier(
+                curso.getIcono(), "drawable", ctx.getPackageName());
+        if (resId != 0) {
+            holder.ivIcono.setImageResource(resId);
+        } else {
+            holder.ivIcono.setImageResource(R.drawable.ic_android); // fallback
+        }
+
         holder.itemView.setOnClickListener(v -> listener.onClick(curso));
     }
 
     @Override
-    public int getItemCount() { return listaFiltrada.size(); }
-
-    public void filtrar(String texto) {
-        listaFiltrada.clear();
-        if (texto.isEmpty()) {
-            listaFiltrada.addAll(listaOriginal);
-        } else {
-            String lower = texto.toLowerCase();
-            for (Curso c : listaOriginal) {
-                if (c.getNombre().toLowerCase().contains(lower) ||
-                        c.getCategoria().toLowerCase().contains(lower)) {
-                    listaFiltrada.add(c);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
+    public int getItemCount() { return lista.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvInstructor, tvDuracion, tvCategoria;
+        TextView tvNombre, tvInstructor, tvDuracion;
+        ImageView ivIcono;
 
         ViewHolder(View v) {
             super(v);
             tvNombre = v.findViewById(R.id.tvNombre);
             tvInstructor = v.findViewById(R.id.tvInstructor);
             tvDuracion = v.findViewById(R.id.tvDuracion);
-            tvCategoria = v.findViewById(R.id.tvCategoria);
+            ivIcono = v.findViewById(R.id.ivIcono);
         }
     }
 }

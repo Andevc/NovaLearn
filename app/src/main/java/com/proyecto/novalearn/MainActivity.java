@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         obj.getString("descripcion"),
                         obj.getString("instructor"),
                         obj.getString("duracion"),
-                        obj.getString("categoria")
+                        obj.getString("categoria"),
+                        obj.optString("icono", "ic_android")
                 );
                 long cursoId = dbHelper.insertarCurso(curso);
 

@@ -97,7 +97,42 @@
                 android:textStyle="bold"
                 android:textColor="@color/textPrimary"
                 android:layout_marginBottom="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
 
+                <TextView
+                    android:id="@+id/tvProgreso"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:textColor="@color/textSecondary"
+                    android:text="0/0 lecciones completadas"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:id="@+id/tvPorcentajeCurso"/>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressCurso"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="@color/colorPrimary"
+                android:progressBackgroundTint="@color/coralLight"
+                android:layout_marginBottom="16dp"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLecciones"
                 android:layout_width="match_parent"

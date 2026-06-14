@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.Callback;
 import com.auth0.android.jwt.JWT;
 import com.auth0.android.result.Credentials;
-import com.auth0.android.result.DatabaseUser;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,19 +23,18 @@ import com.proyecto.novalearn.MainActivity;
 import com.proyecto.novalearn.R;
 import com.proyecto.novalearn.auth.Auth0Manager;
 import com.proyecto.novalearn.utils.SessionManager;
-import com.google.android.material.button.MaterialButton;
 
 public class LoginActivity extends AppCompatActivity {
 
     private AuthenticationAPIClient authClient;
     private SessionManager sessionManager;
-    private Auth0 auth0;
 
     private TabLayout tabLayout;
     private TextInputEditText etEmail, etPassword, etNombre;
-    private TextInputLayout tilNombre;
+    private TextInputLayout tilPassword, tilNombre;
     private MaterialButton btnAcceder;
     private ProgressBar progressBar;
+    private TextView tvPasswordHint;
 
     private boolean esRegistro = false;
 
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        auth0 = Auth0Manager.getAuth0(this);
+        Auth0 auth0 = Auth0Manager.getAuth0(this);
         authClient = new AuthenticationAPIClient(auth0);
         sessionManager = new SessionManager(this);
 
@@ -56,9 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etNombre = findViewById(R.id.etNombre);
+        tilPassword = findViewById(R.id.tilPassword);
         tilNombre = findViewById(R.id.tilNombre);
         btnAcceder = findViewById(R.id.btnAcceder);
         progressBar = findViewById(R.id.progressBar);
+        tvPasswordHint = findViewById(R.id.tvPasswordHint);
 
         tabLayout.addTab(tabLayout.newTab().setText("Iniciar Sesión"));
         tabLayout.addTab(tabLayout.newTab().setText("Registrarse"));
@@ -68,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 esRegistro = tab.getPosition() == 1;
                 tilNombre.setVisibility(esRegistro ? View.VISIBLE : View.GONE);
+                tvPasswordHint.setVisibility(esRegistro ? View.VISIBLE : View.GONE);
+                tilPassword.setError(null);
                 btnAcceder.setText(esRegistro ? "Crear Cuenta" : "Iniciar Sesión");
             }
             @Override public void onTabUnselected(TabLayout.Tab tab) {}
@@ -92,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         mostrarCarga(true);
 
         authClient.login(email, password, "Username-Password-Authentication")
+                .validateClaims()
                 .setScope("openid profile email")
                 .start(new Callback<Credentials, AuthenticationException>() {
                     @Override
@@ -103,9 +108,26 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(AuthenticationException error) {
                         runOnUiThread(() -> {
                             mostrarCarga(false);
-                            Toast.makeText(LoginActivity.this,
-                                    "Email o contraseña incorrectos",
-                                    Toast.LENGTH_SHORT).show();
+                            android.util.Log.e("AUTH0_ERROR", "Code: " + error.getCode());
+                            android.util.Log.e("AUTH0_ERROR", "Desc: " + error.getDescription());
+
+                            String msg;
+                            if (error.getCode() != null) {
+                                switch (error.getCode()) {
+                                    case "invalid_user_password":
+                                        msg = "Email o contraseña incorrectos";
+                                        break;
+                                    case "too_many_attempts":
+                                        msg = "Demasiados intentos. Espera un momento";
+                                        break;
+                                    default:
+                                        msg = "Error al iniciar sesión";
+                                        break;
+                                }
+                            } else {
+                                msg = "Error de conexión";
+                            }
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
                         });
                     }
                 });
@@ -121,44 +143,71 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (!validarPassword(password)) return;
+
         mostrarCarga(true);
 
-        authClient.createUser(email, password, nombre, "Username-Password-Authentication")
-                .start(new Callback<DatabaseUser, AuthenticationException>() {
+        authClient.signUp(email, password, nombre, "Username-Password-Authentication")
+                .validateClaims()
+                .setScope("openid profile email")
+                .start(new Callback<Credentials, AuthenticationException>() {
                     @Override
-                    public void onSuccess(DatabaseUser user) {
-                        // Después de registrar, hacer login automático
-                        authClient.login(email, password, "Username-Password-Authentication")
-                                .setScope("openid profile email")
-                                .start(new Callback<Credentials, AuthenticationException>() {
-                                    @Override
-                                    public void onSuccess(Credentials credentials) {
-                                        procesarCredenciales(credentials);
-                                    }
-
-                                    @Override
-                                    public void onFailure(AuthenticationException error) {
-                                        runOnUiThread(() -> {
-                                            mostrarCarga(false);
-                                            Toast.makeText(LoginActivity.this,
-                                                    "Cuenta creada. Inicia sesión.",
-                                                    Toast.LENGTH_SHORT).show();
-                                            tabLayout.getTabAt(0).select();
-                                        });
-                                    }
-                                });
+                    public void onSuccess(Credentials credentials) {
+                        procesarCredenciales(credentials);
                     }
 
                     @Override
                     public void onFailure(AuthenticationException error) {
                         runOnUiThread(() -> {
                             mostrarCarga(false);
-                            Toast.makeText(LoginActivity.this,
-                                    "Error al registrar: " + error.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            android.util.Log.e("AUTH0_ERROR", "Code: " + error.getCode());
+                            android.util.Log.e("AUTH0_ERROR", "Desc: " + error.getDescription());
+
+                            String msg;
+                            if (error.getCode() != null) {
+                                switch (error.getCode()) {
+                                    case "user_exists":
+                                    case "username already exists":
+                                        msg = "Este email ya está registrado";
+                                        break;
+                                    case "invalid_password":
+                                        msg = "La contraseña no cumple los requisitos";
+                                        break;
+                                    case "invalid_signup":
+                                        msg = "Datos de registro inválidos";
+                                        break;
+                                    default:
+                                        msg = "Error al registrar: " + error.getDescription();
+                                        break;
+                                }
+                            } else {
+                                msg = "Error de conexión";
+                            }
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
                         });
                     }
                 });
+    }
+
+    private boolean validarPassword(String password) {
+        if (password.length() < 8) {
+            tilPassword.setError("Mínimo 8 caracteres");
+            return false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            tilPassword.setError("Debe tener al menos una mayúscula");
+            return false;
+        }
+        if (!password.matches(".*[0-9].*")) {
+            tilPassword.setError("Debe tener al menos un número");
+            return false;
+        }
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?].*")) {
+            tilPassword.setError("Debe tener al menos un carácter especial (!@#$...)");
+            return false;
+        }
+        tilPassword.setError(null);
+        return true;
     }
 
     private void procesarCredenciales(Credentials credentials) {

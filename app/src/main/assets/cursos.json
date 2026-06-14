@@ -1,60 +1,217 @@
 [
   {
-    "id": 1,
+    "icono": "ic_android",
     "nombre": "Introducción a Android",
     "descripcion": "Aprende a desarrollar aplicaciones móviles nativas con Java y Android Studio desde cero.",
-    "instructor": "Dr. Juan Miranda",
+    "instructor": "Ing. Miguel Duran",
     "duracion": "40 horas",
     "categoria": "Desarrollo Móvil",
     "lecciones": [
-      {"id": 1, "titulo": "¿Qué es Android?", "contenido": "Android es un sistema operativo móvil basado en Linux."},
-      {"id": 2, "titulo": "Instalación de Android Studio", "contenido": "Descarga e instala Android Studio desde developer.android.com."},
-      {"id": 3, "titulo": "Tu primera Activity", "contenido": "Una Activity representa una pantalla en tu aplicación Android."}
+      {
+        "id": 1,
+        "titulo": "¿Qué es Android?",
+        "contenido": "Android es un sistema operativo móvil basado en el kernel de Linux, desarrollado por Google. Fue lanzado en 2008 y actualmente es el sistema operativo móvil más utilizado en el mundo, con más del 70% de cuota de mercado global. Android está diseñado principalmente para dispositivos con pantalla táctil como teléfonos inteligentes y tabletas. Su arquitectura se divide en capas: el kernel de Linux, las bibliotecas nativas, el entorno de ejecución (ART), el framework de aplicaciones y las aplicaciones. Gracias a su naturaleza de código abierto, los fabricantes pueden personalizar Android para sus dispositivos, lo que ha contribuido enormemente a su adopción masiva."
+      },
+      {
+        "id": 2,
+        "titulo": "Instalación de Android Studio",
+        "contenido": "Android Studio es el entorno de desarrollo integrado (IDE) oficial para el desarrollo de aplicaciones Android. Para instalarlo, primero descarga el instalador desde developer.android.com/studio. Requiere al menos 8 GB de RAM (se recomiendan 16 GB), 8 GB de espacio en disco y una resolución de pantalla mínima de 1280x800. Durante la instalación, asegúrate de incluir el Android SDK, el emulador de Android y las herramientas de plataforma. Una vez instalado, configura un dispositivo virtual (AVD) desde el AVD Manager para probar tus aplicaciones sin necesidad de un dispositivo físico. También puedes habilitar la depuración USB en tu teléfono Android real para instalar y probar directamente desde Android Studio."
+      },
+      {
+        "id": 3,
+        "titulo": "Tu primera Activity",
+        "contenido": "Una Activity es el componente fundamental de una aplicación Android que representa una pantalla con la que el usuario puede interactuar. Cada Activity tiene un ciclo de vida definido por métodos como onCreate(), onStart(), onResume(), onPause(), onStop() y onDestroy(). Al crear tu primera Activity, Android Studio genera automáticamente un archivo MainActivity.java y su layout activity_main.xml. En el método onCreate() es donde inicializas tu interfaz de usuario llamando a setContentView(R.layout.activity_main). Para navegar entre Activities, utilizas objetos Intent. Por ejemplo: Intent intent = new Intent(this, SegundaActivity.class); startActivity(intent); Es fundamental entender el ciclo de vida para manejar correctamente los recursos y evitar fugas de memoria."
+      },
+      {
+        "id": 4,
+        "titulo": "Layouts y Vistas",
+        "contenido": "Los layouts en Android definen la estructura visual de la interfaz de usuario. Los más utilizados son: LinearLayout, que organiza elementos en una fila o columna; RelativeLayout, que posiciona elementos relativos entre sí; ConstraintLayout, el más poderoso y recomendado actualmente, que permite crear interfaces complejas con un rendimiento óptimo; y FrameLayout, ideal para superponer elementos. Cada layout contiene Vistas (Views) como TextView para mostrar texto, EditText para entrada de datos, Button para botones, ImageView para imágenes y RecyclerView para listas. Todos los layouts se definen en archivos XML dentro de la carpeta res/layout. Puedes hacer referencia a cualquier vista desde tu código Java usando findViewById(R.id.nombre_id)."
+      },
+      {
+        "id": 5,
+        "titulo": "RecyclerView y Adaptadores",
+        "contenido": "RecyclerView es el componente más eficiente para mostrar listas de datos en Android. A diferencia del antiguo ListView, RecyclerView recicla las vistas que ya no son visibles para reutilizarlas con nuevos datos, mejorando drásticamente el rendimiento. Para implementarlo necesitas tres componentes: el RecyclerView en tu layout XML, un Adaptador que extiende RecyclerView.Adapter y define cómo se muestra cada elemento, y un ViewHolder que almacena referencias a las vistas de cada ítem para evitar llamadas repetidas a findViewById(). También debes asignar un LayoutManager: LinearLayoutManager para listas verticales u horizontales, GridLayoutManager para cuadrículas y StaggeredGridLayoutManager para cuadrículas de tamaño variable. El patrón ViewHolder junto con el reciclaje de vistas es lo que hace a RecyclerView extremadamente eficiente incluso con miles de elementos."
+      },
+      {
+        "id": 6,
+        "titulo": "Almacenamiento y Bases de Datos",
+        "contenido": "Android ofrece varias opciones de almacenamiento según las necesidades de tu aplicación. SharedPreferences es ideal para guardar pequeñas cantidades de datos primitivos como configuraciones de usuario en pares clave-valor. El almacenamiento interno y externo permite guardar archivos directamente en el sistema de archivos del dispositivo. SQLite es una base de datos relacional integrada en Android, perfecta para datos estructurados. Para trabajar con SQLite, extiendes la clase SQLiteOpenHelper, donde defines tus tablas en onCreate() y manejas migraciones en onUpgrade(). Room es la librería de persistencia oficial de Android que actúa como una capa de abstracción sobre SQLite, ofreciendo verificación de consultas en tiempo de compilación y una API más simple y segura basada en anotaciones como @Entity, @Dao y @Database."
+      }
     ]
   },
   {
-    "id": 2,
+    "icono": "ic_design",
     "nombre": "Diseño UX/UI Mobile",
     "descripcion": "Principios de diseño de interfaces para aplicaciones móviles con Material Design 3.",
     "instructor": "Lic. Ana Flores",
     "duracion": "25 horas",
     "categoria": "Diseño",
-    "lecciones": []
+    "lecciones": [
+      {
+        "id": 1,
+        "titulo": "Fundamentos de UX",
+        "contenido": "UX (User Experience) o Experiencia de Usuario es la disciplina que estudia cómo las personas interactúan con los productos digitales y cómo se sienten durante esa interacción. Un buen diseño UX parte siempre del usuario: sus necesidades, objetivos, contextos y limitaciones. Los principios fundamentales incluyen la usabilidad (que el producto sea fácil de usar), la accesibilidad (que cualquier persona pueda usarlo independientemente de sus capacidades), la utilidad (que resuelva un problema real) y el deleite (que la experiencia sea agradable). El proceso UX incluye investigación de usuarios, definición de personas y escenarios, arquitectura de información, wireframing, prototipado y pruebas de usabilidad. Herramientas populares para UX son Figma, Adobe XD y Maze para pruebas de usuario."
+      },
+      {
+        "id": 2,
+        "titulo": "Material Design 3",
+        "contenido": "Material Design 3 (también llamado Material You) es el sistema de diseño más reciente de Google, introducido con Android 12. Su característica más destacada es el color dinámico: la interfaz adapta su paleta de colores basándose en el fondo de pantalla del usuario, creando una experiencia personalizada. Los componentes principales de Material Design 3 incluyen botones (filled, outlined, text, elevated y tonal), tarjetas (elevated, filled, outlined), campos de texto, barras de navegación, diálogos y más. Cada componente tiene estados definidos: normal, hover, pressed, focused y disabled. En Android, la librería com.google.android.material proporciona implementaciones listas para usar de todos estos componentes. Seguir las guías de Material Design garantiza una interfaz coherente con el ecosistema Android."
+      },
+      {
+        "id": 3,
+        "titulo": "Tipografía y Color",
+        "contenido": "La tipografía y el color son dos de los elementos más poderosos en el diseño de interfaces. En tipografía, Material Design 3 define una escala tipográfica con roles específicos: Display (el más grande, para títulos hero), Headline (títulos de sección), Title (títulos de componentes), Body (texto de contenido principal) y Label (texto de apoyo, botones, etiquetas). Para móviles, el tamaño mínimo de texto legible es 12sp. En cuanto al color, Material Design 3 define un sistema de colores basado en roles semánticos: Primary, Secondary, Tertiary, Error, Surface, Background y sus variantes On- (texto sobre ese color). Se recomienda usar herramientas como Material Theme Builder para generar paletas accesibles que cumplan con las relaciones de contraste mínimas definidas por WCAG 2.1: 4.5:1 para texto normal y 3:1 para texto grande."
+      },
+      {
+        "id": 4,
+        "titulo": "Navegación y Flujos",
+        "contenido": "La navegación es uno de los aspectos más críticos del diseño móvil. Android define tres patrones principales de navegación: la barra de navegación inferior (Bottom Navigation Bar) para 3-5 destinos principales de igual importancia, el panel de navegación lateral (Navigation Drawer) para aplicaciones con muchas secciones o jerarquías profundas, y las pestañas (Tabs) para cambiar entre vistas del mismo nivel. Un flujo de navegación bien diseñado debe ser predecible: el usuario siempre debe saber dónde está, de dónde viene y a dónde puede ir. Los wireflows combinan wireframes con flechas de flujo para documentar las transiciones entre pantallas. En Android Studio, el Navigation Component del Jetpack facilita la implementación de navegación con un grafo visual de destinos, acciones y argumentos entre pantallas."
+      },
+      {
+        "id": 5,
+        "titulo": "Prototipado con Figma",
+        "contenido": "Figma es la herramienta de diseño colaborativo más utilizada en la industria actualmente. Permite crear wireframes, mockups de alta fidelidad y prototipos interactivos que simulan el comportamiento real de una aplicación. Para diseñar para Android, configura el frame en 360x800dp (tamaño estándar de un teléfono Android mediano). Usa componentes y variantes para mantener consistencia: un botón definido como componente puede actualizarse globalmente cambiándolo en un solo lugar. Las librerías de Material Design 3 para Figma están disponibles gratuitamente en el Community de Figma. Para prototipar, conecta frames con interacciones de tipo Navigate To, con transiciones de Smart Animate para simular animaciones fluidas. Puedes compartir el prototipo con stakeholders mediante un link y recolectar comentarios directamente en el diseño."
+      }
+    ]
   },
   {
-    "id": 3,
+    "icono": "ic_database",
     "nombre": "Base de Datos con SQLite",
     "descripcion": "Manejo de bases de datos locales en Android usando SQLite y Room.",
     "instructor": "Ing. Carlos Quispe",
     "duracion": "30 horas",
     "categoria": "Bases de Datos",
-    "lecciones": []
+    "lecciones": [
+      {
+        "id": 1,
+        "titulo": "¿Qué es SQLite?",
+        "contenido": "SQLite es un motor de base de datos relacional de código abierto, liviano y sin servidor que se almacena en un único archivo en el dispositivo. A diferencia de otros sistemas de gestión de bases de datos como MySQL o PostgreSQL, SQLite no requiere un proceso de servidor separado: la base de datos es simplemente un archivo en el sistema de archivos. Esto lo hace perfecto para aplicaciones móviles donde los recursos son limitados. SQLite soporta la mayoría del estándar SQL-92, incluyendo transacciones ACID, subconsultas, triggers y vistas. En Android, cada aplicación tiene su propio directorio privado donde se almacena su base de datos SQLite, inaccesible para otras aplicaciones. Puedes inspeccionar la base de datos de tu app en Android Studio usando el Database Inspector, disponible en View > Tool Windows > App Inspection."
+      },
+      {
+        "id": 2,
+        "titulo": "Creación de Tablas",
+        "contenido": "En Android, para trabajar con SQLite extiendes la clase SQLiteOpenHelper y sobrescribes dos métodos clave. En onCreate() defines la estructura de tus tablas con sentencias CREATE TABLE. Por ejemplo: db.execSQL('CREATE TABLE usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, email TEXT UNIQUE, fecha_registro TEXT)'); Los tipos de datos principales en SQLite son INTEGER para números enteros, REAL para decimales, TEXT para cadenas de texto y BLOB para datos binarios. SQLite también es flexible en tipos: una columna definida como TEXT puede almacenar cualquier tipo de dato. Las constraints más usadas son PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT y FOREIGN KEY. En onUpgrade() manejas las migraciones cuando cambias la estructura de la BD en versiones posteriores de tu app, incrementando el número de versión en el constructor del helper."
+      },
+      {
+        "id": 3,
+        "titulo": "CRUD: Insertar y Consultar",
+        "contenido": "Las operaciones CRUD (Create, Read, Update, Delete) son las operaciones fundamentales de cualquier base de datos. Para insertar datos en Android usas ContentValues, un mapa de clave-valor que representa una fila: ContentValues cv = new ContentValues(); cv.put('nombre', 'Juan'); cv.put('email', 'juan@email.com'); long id = db.insert('usuarios', null, cv); Para consultar datos usas rawQuery() con SQL puro o query() con parámetros separados. El resultado se obtiene en un objeto Cursor que debes iterar: Cursor c = db.rawQuery('SELECT * FROM usuarios WHERE nombre = ?', new String[]{'Juan'}); while (c.moveToNext()) { String nombre = c.getString(c.getColumnIndexOrThrow('nombre')); } Siempre cierra el Cursor y la base de datos después de usarlos para liberar recursos y evitar fugas de memoria."
+      },
+      {
+        "id": 4,
+        "titulo": "CRUD: Actualizar y Eliminar",
+        "contenido": "Para actualizar registros en SQLite usas el método update() del objeto SQLiteDatabase: ContentValues cv = new ContentValues(); cv.put('nombre', 'Juan Carlos'); int filasAfectadas = db.update('usuarios', cv, 'id = ?', new String[]{'1'}); El tercer parámetro es la cláusula WHERE y el cuarto son los argumentos, siempre como String[] para evitar inyección SQL. Para eliminar registros usas delete(): int filasEliminadas = db.delete('usuarios', 'email = ?', new String[]{'juan@email.com'}); Si quieres eliminar todos los registros sin borrar la tabla: db.delete('usuarios', null, null); Las transacciones son fundamentales cuando realizas múltiples operaciones relacionadas: db.beginTransaction(); try { // operaciones db.setTransactionSuccessful(); } finally { db.endTransaction(); } Las transacciones garantizan que todas las operaciones se completen o ninguna lo haga, manteniendo la integridad de los datos."
+      },
+      {
+        "id": 5,
+        "titulo": "Introducción a Room",
+        "contenido": "Room es la librería de persistencia oficial de Android Jetpack que proporciona una capa de abstracción sobre SQLite. Sus ventajas sobre SQLite puro son: verificación de consultas SQL en tiempo de compilación, integración nativa con LiveData y Flow para actualizaciones reactivas, soporte para migraciones estructuradas y una API más limpia basada en anotaciones. Room tiene tres componentes principales. Las Entidades (@Entity) son clases Java anotadas que representan tablas: @Entity(tableName = 'usuarios') public class Usuario { @PrimaryKey(autoGenerate = true) public int id; public String nombre; } Los DAOs (@Dao) son interfaces que definen las operaciones de base de datos con anotaciones @Insert, @Update, @Delete y @Query. La clase Database (@Database) es el punto de entrada que conecta entidades y DAOs. Room elimina gran parte del código repetitivo de SQLite y hace el código más legible, mantenible y seguro."
+      }
+    ]
   },
   {
-    "id": 4,
+    "icono": "ic_python",
     "nombre": "Python para Ciencia de Datos",
     "descripcion": "Introducción a Python con enfoque en análisis de datos y visualización.",
     "instructor": "MSc. Laura Mamani",
     "duracion": "50 horas",
     "categoria": "Ciencia de Datos",
-    "lecciones": []
+    "lecciones": [
+      {
+        "id": 1,
+        "titulo": "Python: Fundamentos",
+        "contenido": "Python es un lenguaje de programación interpretado, de alto nivel y propósito general, creado por Guido van Rossum en 1991. Su filosofía enfatiza la legibilidad del código con una sintaxis limpia que usa indentación en lugar de llaves. Es el lenguaje más popular para ciencia de datos, inteligencia artificial y análisis estadístico. Los tipos de datos básicos en Python incluyen: int (enteros), float (decimales), str (cadenas de texto), bool (verdadero/falso), list (listas mutables), tuple (listas inmutables), dict (diccionarios clave-valor) y set (conjuntos sin duplicados). Python usa tipado dinámico, lo que significa que no necesitas declarar el tipo de una variable. Las estructuras de control incluyen if/elif/else, for loops (for elemento in lista), while loops, y comprensiones de lista como [x**2 for x in range(10) if x % 2 == 0] que generan listas de forma concisa y eficiente."
+      },
+      {
+        "id": 2,
+        "titulo": "NumPy: Computación Numérica",
+        "contenido": "NumPy (Numerical Python) es la librería fundamental para computación científica en Python. Su componente central es el ndarray, un array multidimensional homogéneo mucho más eficiente que las listas nativas de Python gracias a su implementación en C. Para instalarla: pip install numpy. Uso básico: import numpy as np; arr = np.array([1, 2, 3, 4, 5]). NumPy permite operaciones vectorizadas que aplican una operación a todos los elementos sin bucles explícitos: arr * 2 duplica todos los elementos, np.sqrt(arr) calcula la raíz cuadrada de cada uno. Para matrices 2D: matriz = np.zeros((3, 4)) crea una matriz de 3 filas y 4 columnas con ceros. Las operaciones de álgebra lineal como multiplicación de matrices (np.dot), inversión (np.linalg.inv) y valores propios (np.linalg.eig) son fundamentales en machine learning. NumPy también ofrece funciones estadísticas como np.mean(), np.std(), np.median() y np.percentile()."
+      },
+      {
+        "id": 3,
+        "titulo": "Pandas: Análisis de Datos",
+        "contenido": "Pandas es la librería más importante para manipulación y análisis de datos en Python. Introduce dos estructuras de datos principales: Series (array unidimensional con etiquetas) y DataFrame (tabla bidimensional con filas y columnas etiquetadas, similar a una hoja de cálculo). Para cargar datos: df = pd.read_csv('datos.csv') carga un archivo CSV en un DataFrame. df.head() muestra las primeras 5 filas, df.info() muestra tipos de datos y valores nulos, df.describe() proporciona estadísticas descriptivas. Para filtrar filas: df[df['edad'] > 30] o df.query('edad > 30 and ciudad == \"La Paz\"'). Para seleccionar columnas: df[['nombre', 'edad']] o df.loc[:, 'nombre':'ciudad']. El manejo de valores nulos es crítico: df.isnull().sum() cuenta nulos por columna, df.dropna() elimina filas con nulos, df.fillna(0) rellena nulos con cero. Para agrupar datos: df.groupby('ciudad')['salario'].mean() calcula el salario promedio por ciudad."
+      },
+      {
+        "id": 4,
+        "titulo": "Visualización con Matplotlib y Seaborn",
+        "contenido": "La visualización de datos es fundamental para entender patrones y comunicar hallazgos. Matplotlib es la librería base de visualización en Python: import matplotlib.pyplot as plt. Para un gráfico de líneas: plt.plot(x, y, color='blue', linewidth=2, label='ventas'); plt.xlabel('Mes'); plt.ylabel('Ventas'); plt.title('Ventas mensuales'); plt.legend(); plt.show(). Para histogramas: plt.hist(datos, bins=20, edgecolor='black'). Para gráficos de dispersión: plt.scatter(x, y, c=colores, s=tamaños, alpha=0.6). Seaborn es una librería de alto nivel construida sobre Matplotlib que produce gráficos estadísticos más atractivos con menos código: import seaborn as sns. sns.heatmap(df.corr(), annot=True, cmap='coolwarm') visualiza la correlación entre variables. sns.boxplot(x='categoria', y='valor', data=df) muestra distribuciones por categoría. sns.pairplot(df) crea una matriz de gráficos de dispersión para todas las combinaciones de variables numéricas."
+      },
+      {
+        "id": 5,
+        "titulo": "Introducción al Machine Learning",
+        "contenido": "Machine Learning (ML) es una rama de la inteligencia artificial donde los algoritmos aprenden patrones de los datos sin ser programados explícitamente. Scikit-learn es la librería de ML más popular en Python: pip install scikit-learn. El flujo de trabajo típico de ML tiene estas etapas: recolección y limpieza de datos, análisis exploratorio, selección y entrenamiento del modelo, evaluación y optimización. Los algoritmos de ML se dividen en aprendizaje supervisado (cuando tienes etiquetas), no supervisado (sin etiquetas) y por refuerzo. Un ejemplo con regresión lineal: from sklearn.linear_model import LinearRegression; from sklearn.model_selection import train_test_split; X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2); modelo = LinearRegression(); modelo.fit(X_train, y_train); score = modelo.score(X_test, y_test). Para clasificación, algoritmos populares son árbol de decisión, bosque aleatorio (Random Forest), k-vecinos más cercanos (KNN) y Support Vector Machines (SVM). La validación cruzada (cross-validation) es esencial para evaluar modelos de forma robusta."
+      }
+    ]
   },
   {
-    "id": 5,
+    "icono": "ic_web",
     "nombre": "Desarrollo Web con React",
     "descripcion": "Crea interfaces web modernas con React y JavaScript.",
     "instructor": "Ing. Pedro Condori",
     "duracion": "35 horas",
     "categoria": "Desarrollo Web",
-    "lecciones": []
+    "lecciones": [
+      {
+        "id": 1,
+        "titulo": "JavaScript Moderno (ES6+)",
+        "contenido": "Antes de aprender React, es fundamental dominar JavaScript moderno (ES6 y versiones posteriores). Las características más importantes incluyen: let y const para declarar variables (reemplazando var), con const para valores que no cambian y let para los que sí. Arrow functions: const suma = (a, b) => a + b; más concisas y con manejo diferente de this. Destructuring para extraer valores de arrays y objetos: const { nombre, edad } = persona; const [primero, ...resto] = array. Spread operator (...) para copiar o combinar arrays y objetos: const nuevo = { ...objeto, propiedad: valor }. Template literals para interpolación de strings: `Hola, ${nombre}!`. Promises y async/await para manejo asíncrono: const datos = await fetch(url).then(r => r.json()). Módulos con import/export para organizar el código en archivos separados. Métodos de arrays funcionales como map(), filter(), reduce() y find() son esenciales en React para transformar y renderizar datos."
+      },
+      {
+        "id": 2,
+        "titulo": "Fundamentos de React",
+        "contenido": "React es una biblioteca JavaScript de código abierto desarrollada por Meta (Facebook) para construir interfaces de usuario. Su característica principal es el Virtual DOM: React mantiene una representación virtual del DOM en memoria y solo actualiza los elementos que realmente cambiaron, haciendo las actualizaciones muy eficientes. Los componentes son los bloques fundamentales de React: funciones JavaScript que retornan JSX (JavaScript XML), una sintaxis que mezcla JavaScript con HTML. Para crear un proyecto: npx create-react-app mi-app. Un componente básico: function Saludo({ nombre }) { return <h1>Hola, {nombre}!</h1>; } Los props son los parámetros que pasas a los componentes para personalizar su comportamiento y apariencia, similares a los atributos HTML. React tiene un flujo de datos unidireccional (de padre a hijo), lo que hace el código más predecible y fácil de depurar. JSX requiere que todos los elementos tengan una etiqueta de cierre y que el componente retorne un único elemento raíz (puedes usar <> </> como fragmento)."
+      },
+      {
+        "id": 3,
+        "titulo": "Hooks: useState y useEffect",
+        "contenido": "Los Hooks son funciones especiales que permiten usar características de React como el estado y el ciclo de vida en componentes funcionales. useState es el hook más fundamental: const [contador, setContador] = useState(0); retorna el valor actual del estado y una función para actualizarlo. Cada llamada a setContador con un nuevo valor provoca que React re-renderice el componente. useState puede almacenar cualquier tipo de dato: números, strings, booleanos, arrays u objetos. useEffect permite ejecutar efectos secundarios como llamadas a APIs, suscripciones o manipulación del DOM: useEffect(() => { fetch('/api/datos').then(r => r.json()).then(setDatos); }, [dependencias]); El segundo parámetro es el array de dependencias: si está vacío ([]), el efecto solo se ejecuta al montar el componente; si incluye variables, se ejecuta cada vez que esas variables cambian. Para limpiar efectos (cancelar suscripciones, limpiar timers) retorna una función de cleanup: return () => clearInterval(timer);"
+      },
+      {
+        "id": 4,
+        "titulo": "Manejo de Estado con Context",
+        "contenido": "Cuando varios componentes necesitan compartir estado, pasar props a través de múltiples niveles se vuelve tedioso (prop drilling). React Context resuelve esto creando un estado global accesible desde cualquier componente del árbol sin pasar props manualmente. Para crear un contexto: const TemaContext = createContext(); El Provider envuelve los componentes que necesitan acceso: <TemaContext.Provider value={{ tema, setTema }}><App /></TemaContext.Provider> Y en cualquier componente hijo lo consumes con: const { tema, setTema } = useContext(TemaContext); Para estado más complejo, el hook useReducer es más apropiado que useState: const [estado, dispatch] = useReducer(reducer, estadoInicial); donde reducer es una función pura que recibe el estado actual y una acción y retorna el nuevo estado. Para aplicaciones más grandes o complejas, librerías externas como Redux Toolkit, Zustand o Jotai ofrecen soluciones de manejo de estado más robustas y con mejores herramientas de depuración."
+      },
+      {
+        "id": 5,
+        "titulo": "React Router y APIs REST",
+        "contenido": "React Router es la librería estándar para navegación en aplicaciones React: npm install react-router-dom. Configura las rutas envolviendo tu app: <BrowserRouter><Routes><Route path='/' element={<Inicio/>}/><Route path='/perfil/:id' element={<Perfil/>}/><Route path='*' element={<NoEncontrado/>}/></Routes></BrowserRouter> Para navegar programáticamente: const navigate = useNavigate(); navigate('/perfil/123'). Para leer parámetros de la URL: const { id } = useParams(). Para consumir APIs REST, el hook useEffect junto con fetch o la librería axios es el patrón estándar: useEffect(() => { const cargar = async () => { try { const res = await fetch('https://api.ejemplo.com/datos'); const json = await res.json(); setDatos(json); } catch (err) { setError(err.message); } finally { setCargando(false); } }; cargar(); }, []); Es buena práctica manejar los tres estados posibles: cargando, error y datos disponibles, para dar feedback apropiado al usuario en cada situación."
+      }
+    ]
   },
   {
-    "id": 6,
+    "icono": "ic_marketing",
     "nombre": "Marketing Digital",
     "descripcion": "Estrategias de marketing en redes sociales, SEO y publicidad digital.",
     "instructor": "Lic. Sofia Vargas",
     "duracion": "20 horas",
     "categoria": "Marketing",
-    "lecciones": []
+    "lecciones": [
+      {
+        "id": 1,
+        "titulo": "Fundamentos del Marketing Digital",
+        "contenido": "El marketing digital es el conjunto de estrategias de promoción y comercialización llevadas a cabo en medios digitales e internet. A diferencia del marketing tradicional, permite segmentar audiencias con precisión quirúrgica, medir resultados en tiempo real y ajustar estrategias rápidamente. Los canales principales del marketing digital son: SEO (posicionamiento orgánico en buscadores), SEM (publicidad de pago en buscadores), redes sociales (orgánico y pagado), email marketing, marketing de contenidos, marketing de afiliados y marketing de influencers. El embudo de conversión (funnel) es el modelo que describe el viaje del cliente: Awareness (conocimiento de la marca), Consideration (evaluación de opciones), Decision (compra) y Retention (fidelización). KPIs fundamentales incluyen alcance, impresiones, CTR (Click-Through Rate), CPC (Costo por Clic), CPA (Costo por Adquisición), ROAS (Return on Ad Spend) y LTV (Lifetime Value del cliente)."
+      },
+      {
+        "id": 2,
+        "titulo": "SEO: Posicionamiento Orgánico",
+        "contenido": "SEO (Search Engine Optimization) es el conjunto de técnicas para mejorar la visibilidad de un sitio web en los resultados orgánicos de los motores de búsqueda. Google procesa más de 8.5 mil millones de búsquedas diarias, por lo que aparecer en las primeras posiciones puede ser enormemente valioso. El SEO se divide en tres áreas: SEO On-Page (optimización dentro del sitio), SEO Off-Page (factores externos como backlinks) y SEO Técnico (velocidad, mobile-friendliness, estructura). Para SEO On-Page, los elementos más importantes son: el título de la página (title tag) con la keyword principal, la meta descripción (no afecta el ranking pero mejora el CTR), los encabezados H1-H6 con jerarquía clara, el contenido de calidad y extenso (mínimo 1500 palabras para artículos de blog), las imágenes con atributos alt descriptivos y las URLs cortas y descriptivas. La investigación de palabras clave (keyword research) es el primer paso: herramientas como Google Keyword Planner, Ahrefs o SEMrush ayudan a identificar qué busca tu audiencia y con qué competencia."
+      },
+      {
+        "id": 3,
+        "titulo": "Redes Sociales y Contenido",
+        "contenido": "Cada red social tiene su propia audiencia, formato y algoritmo, por lo que la estrategia debe adaptarse a cada plataforma. Instagram favorece el contenido visual de alta calidad: fotos, Reels y Stories. Su algoritmo prioriza las interacciones (comentarios, guardados, compartidos) sobre los likes. TikTok es la plataforma de mayor crecimiento, con un algoritmo que puede viralizar contenido de cuentas nuevas si el video engancha en los primeros 3 segundos. LinkedIn es la red profesional por excelencia, ideal para B2B, reclutamiento y posicionamiento como experto. Facebook sigue siendo la mayor red con 3 mil millones de usuarios pero con alcance orgánico reducido; es más efectiva con publicidad pagada. El contenido de valor (educativo, entretenido o inspiracional) siempre supera al contenido puramente promocional. La regla 80/20 sugiere que el 80% del contenido debe aportar valor y solo el 20% puede ser promocional. La constancia y la frecuencia de publicación son más importantes que la perfección: un calendario editorial ayuda a mantener la regularidad."
+      },
+      {
+        "id": 4,
+        "titulo": "Publicidad Digital (SEM y Social Ads)",
+        "contenido": "La publicidad digital permite amplificar el alcance con presupuestos controlados y resultados medibles. Google Ads es la plataforma de publicidad en buscadores líder: cuando alguien busca una keyword en la que pujaste, tu anuncio puede aparecer en los primeros resultados marcados como 'Patrocinado'. El sistema funciona con subasta en tiempo real (RTB) donde el ranking del anuncio depende de la puja + el Quality Score (relevancia del anuncio y la landing page). Las campañas de Google Ads más comunes son Search (texto en buscador), Display (banners en sitios web), Shopping (productos de e-commerce) y YouTube (video). Meta Ads (Facebook e Instagram) es la plataforma más poderosa para publicidad en redes sociales por su capacidad de segmentación: puedes dirigir anuncios por edad, ubicación, intereses, comportamientos, ingresos y audiencias similares a tus clientes actuales (Lookalike Audiences). Para cualquier campaña de pago, define primero el objetivo (reconocimiento, tráfico, conversiones), el presupuesto diario o total, el período de la campaña y el pixel de seguimiento instalado en tu sitio para medir conversiones."
+      },
+      {
+        "id": 5,
+        "titulo": "Email Marketing y Automatización",
+        "contenido": "El email marketing sigue siendo el canal digital con mayor ROI: por cada dólar invertido genera en promedio 42 dólares de retorno. A diferencia de las redes sociales, tu lista de email es un activo propio que ningún algoritmo puede quitarte. Para construir tu lista, ofrece un lead magnet valioso a cambio del email: un ebook, una plantilla, un webinar gratuito o un descuento. Plataformas populares para email marketing incluyen Mailchimp (ideal para empezar, gratuito hasta 500 contactos), ActiveCampaign (mejor para automatizaciones avanzadas) y HubSpot (solución completa de CRM y marketing). Las métricas clave son: tasa de apertura (promedio industria: 20-25%), CTR (2-3%), tasa de rebote y tasa de cancelación de suscripción. La automatización permite enviar emails personalizados basados en el comportamiento: una secuencia de bienvenida para nuevos suscriptores, emails de carrito abandonado para e-commerce, o emails de reactivación para suscriptores inactivos. La segmentación de la lista (por intereses, comportamiento de compra o etapa del embudo) mejora drásticamente las tasas de apertura y conversión."
+      }
+    ]
   }
 ]

@@ -1,8 +1,11 @@
 package com.proyecto.novalearn.ui.mycourses;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.proyecto.novalearn.R;
 import com.proyecto.novalearn.data.Curso;
+import com.proyecto.novalearn.ui.detail.CourseDetailActivity;
 
 import java.util.List;
 
@@ -35,21 +39,36 @@ public class MisCursosAdapter extends RecyclerView.Adapter<MisCursosAdapter.View
         holder.tvNombre.setText("✓ " + curso.getNombre());
         holder.tvInstructor.setText(curso.getInstructor());
         holder.tvDuracion.setText(curso.getDuracion());
-        holder.tvCategoria.setText(curso.getCategoria());
+
+        Context ctx = holder.itemView.getContext();
+        int resId = ctx.getResources().getIdentifier(
+                curso.getIcono(), "drawable", ctx.getPackageName());
+        if (resId != 0) {
+            holder.ivIcono.setImageResource(resId);
+        } else {
+            holder.ivIcono.setImageResource(R.drawable.ic_android);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(ctx, CourseDetailActivity.class);
+            intent.putExtra("curso_id", curso.getId());
+            ctx.startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() { return lista.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvInstructor, tvDuracion, tvCategoria;
+        TextView tvNombre, tvInstructor, tvDuracion;
+        ImageView ivIcono;
 
         ViewHolder(View v) {
             super(v);
             tvNombre = v.findViewById(R.id.tvNombre);
             tvInstructor = v.findViewById(R.id.tvInstructor);
             tvDuracion = v.findViewById(R.id.tvDuracion);
-            tvCategoria = v.findViewById(R.id.tvCategoria);
+            ivIcono = v.findViewById(R.id.ivIcono);
         }
     }
 }

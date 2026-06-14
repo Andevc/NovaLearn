@@ -15,8 +15,8 @@
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="18dp"
             app:cardBackgroundColor="#FFFFFF"
@@ -24,8 +24,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_launcher"
-                android:padding="8dp"
+                android:src="@mipmap/ic_launcher_bgt"
                 android:scaleType="centerInside"/>
         </androidx.cardview.widget.CardView>
 
@@ -101,7 +100,7 @@
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="4dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Contraseña"
                 app:passwordToggleEnabled="true"
@@ -119,13 +118,25 @@
                     android:textColor="@color/textPrimary"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- ← NUEVO: hint de contraseña solo visible en registro -->
+            <TextView
+                android:id="@+id/tvPasswordHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mín. 8 caracteres, 1 mayúscula, 1 número y 1 carácter especial (!@#$...)"
+                android:textSize="12sp"
+                android:textColor="@color/textSecondary"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="14dp"
+                android:visibility="gone"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Nombre completo"
+                android:hint="Nombre de Usuario"
                 android:visibility="gone"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"

@@ -47,6 +47,5 @@
                     android:scheme="${auth0Scheme}" />
             </intent-filter>
         </activity>
-
     </application>
 </manifest>

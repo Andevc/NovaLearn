@@ -12,11 +12,12 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "novalearn.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 6;
 
-    public static final String TABLE_CURSOS = "cursos";
+    public static final String TABLE_CURSOS        = "cursos";
     public static final String TABLE_INSCRIPCIONES = "inscripciones";
-    public static final String TABLE_LECCIONES = "lecciones";
+    public static final String TABLE_LECCIONES     = "lecciones";
+    public static final String TABLE_PROGRESO      = "progreso";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,7 +31,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "descripcion TEXT," +
                 "instructor TEXT," +
                 "duracion TEXT," +
-                "categoria TEXT)");
+                "categoria TEXT," +
+                "icono TEXT)");
 
         db.execSQL("CREATE TABLE " + TABLE_INSCRIPCIONES + " (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -42,6 +44,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 "curso_id INTEGER," +
                 "titulo TEXT," +
                 "contenido TEXT)");
+
+        db.execSQL("CREATE TABLE " + TABLE_PROGRESO + " (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "usuario TEXT," +
+                "curso_id INTEGER," +
+                "leccion_id INTEGER," +
+                "UNIQUE(usuario, leccion_id))");
     }
 
     @Override
@@ -49,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CURSOS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INSCRIPCIONES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LECCIONES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROGRESO);
         onCreate(db);
     }
 
@@ -62,6 +72,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("instructor", curso.getInstructor());
         cv.put("duracion", curso.getDuracion());
         cv.put("categoria", curso.getCategoria());
+        cv.put("icono", curso.getIcono());
         long id = db.insert(TABLE_CURSOS, null, cv);
         db.close();
         return id;
@@ -72,15 +83,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CURSOS, null);
         while (c.moveToNext()) {
-            Curso curso = new Curso(
-                    c.getInt(0),
-                    c.getString(1),
-                    c.getString(2),
-                    c.getString(3),
-                    c.getString(4),
-                    c.getString(5)
-            );
-            lista.add(curso);
+            lista.add(new Curso(
+                    c.getInt(0), c.getString(1), c.getString(2),
+                    c.getString(3), c.getString(4), c.getString(5), c.getString(6)));
         }
         c.close();
         db.close();
@@ -94,13 +99,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Curso curso = null;
         if (c.moveToFirst()) {
             curso = new Curso(
-                    c.getInt(0),
-                    c.getString(1),
-                    c.getString(2),
-                    c.getString(3),
-                    c.getString(4),
-                    c.getString(5)
-            );
+                    c.getInt(0), c.getString(1), c.getString(2),
+                    c.getString(3), c.getString(4), c.getString(5), c.getString(6));
         }
         c.close();
         db.close();
@@ -159,15 +159,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         "WHERE i.usuario = ?",
                 new String[]{usuario});
         while (c.moveToNext()) {
-            Curso curso = new Curso(
-                    c.getInt(0),
-                    c.getString(1),
-                    c.getString(2),
-                    c.getString(3),
-                    c.getString(4),
-                    c.getString(5)
-            );
-            lista.add(curso);
+            lista.add(new Curso(
+                    c.getInt(0), c.getString(1), c.getString(2),
+                    c.getString(3), c.getString(4), c.getString(5), c.getString(6)));
         }
         c.close();
         db.close();
@@ -210,5 +204,63 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
         db.close();
         return lista;
+    }
+
+    public int contarLeccionesDeCurso(int cursoId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_LECCIONES +
+                " WHERE curso_id = ?", new String[]{String.valueOf(cursoId)});
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        db.close();
+        return count;
+    }
+
+    // ── PROGRESO ──────────────────────────────────────────
+
+    public void marcarLeccionLeida(String usuario, int cursoId, int leccionId) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("usuario", usuario);
+        cv.put("curso_id", cursoId);
+        cv.put("leccion_id", leccionId);
+        db.insertWithOnConflict(TABLE_PROGRESO, null, cv, SQLiteDatabase.CONFLICT_IGNORE);
+        db.close();
+    }
+
+    public boolean leccionLeida(String usuario, int leccionId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_PROGRESO +
+                        " WHERE usuario = ? AND leccion_id = ?",
+                new String[]{usuario, String.valueOf(leccionId)});
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        db.close();
+        return count > 0;
+    }
+
+    public int contarLeccionesLeidas(String usuario, int cursoId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_PROGRESO +
+                        " WHERE usuario = ? AND curso_id = ?",
+                new String[]{usuario, String.valueOf(cursoId)});
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        db.close();
+        return count;
+    }
+
+    public int contarTotalLeccionesLeidas(String usuario) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_PROGRESO +
+                " WHERE usuario = ?", new String[]{usuario});
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        db.close();
+        return count;
     }
 }

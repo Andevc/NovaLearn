@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,9 @@ public class CourseDetailActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private Curso curso;
     private MaterialButton btnInscribirse;
+    private TextView tvProgreso;
+    private ProgressBar progressCurso;
+    private List<Leccion> lecciones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +43,16 @@ public class CourseDetailActivity extends AppCompatActivity {
         try {
             setContentView(R.layout.activity_course_detail);
 
-            dbHelper = new DBHelper(this);
+            dbHelper      = new DBHelper(this);
             sessionManager = new SessionManager(this);
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
             int cursoId = getIntent().getIntExtra("curso_id", -1);
-            Log.d(TAG, "cursoId recibido: " + cursoId);
-
             curso = dbHelper.obtenerCursoPorId(cursoId);
-            Log.d(TAG, "curso obtenido: " + (curso != null ? curso.getNombre() : "NULL"));
 
-            if (curso == null) {
-                Log.e(TAG, "Curso es null, cerrando actividad");
-                finish();
-                return;
-            }
+            if (curso == null) { finish(); return; }
 
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,14 +65,20 @@ public class CourseDetailActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.tvDuracion)).setText("⏱ " + curso.getDuracion());
             ((TextView) findViewById(R.id.tvCategoria)).setText(curso.getCategoria().toUpperCase());
 
+            tvProgreso   = findViewById(R.id.tvProgreso);
+            progressCurso = findViewById(R.id.progressCurso);
+
+            lecciones = dbHelper.obtenerLeccionesDeCurso(curso.getId());
+
             RecyclerView rvLecciones = findViewById(R.id.rvLecciones);
             rvLecciones.setLayoutManager(new LinearLayoutManager(this));
-            List<Leccion> lecciones = dbHelper.obtenerLeccionesDeCurso(curso.getId());
-            rvLecciones.setAdapter(new LeccionAdapter(lecciones));
+            rvLecciones.setAdapter(new LeccionAdapter(
+                    lecciones, curso.getId(), this, this::actualizarProgreso));
+
+            actualizarProgreso();
 
             btnInscribirse = findViewById(R.id.btnInscribirse);
             actualizarBoton();
-
             btnInscribirse.setOnClickListener(v -> inscribirse());
 
         } catch (Exception e) {
@@ -83,18 +86,20 @@ public class CourseDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void actualizarProgreso() {
+        String email   = sessionManager.getEmail();
+        int total      = lecciones.size();
+        int leidas     = dbHelper.contarLeccionesLeidas(email, curso.getId());
+        int porcentaje = total > 0 ? (leidas * 100) / total : 0;
+
+        tvProgreso.setText(leidas + "/" + total + " lecciones completadas");
+        progressCurso.setMax(100);
+        progressCurso.setProgress(porcentaje);
+    }
+
     private void actualizarBoton() {
-        String email = sessionManager.getEmail();
-        Log.d(TAG, "email en sesión: " + email);
-
-        if (email == null) {
-            Log.e(TAG, "Email es null, no hay sesión activa");
-            return;
-        }
-
+        String email   = sessionManager.getEmail();
         boolean inscrito = dbHelper.estaInscrito(email, curso.getId());
-        Log.d(TAG, "estaInscrito: " + inscrito);
-
         if (inscrito) {
             btnInscribirse.setText("✓ Ya inscrito");
             btnInscribirse.setEnabled(false);
@@ -105,8 +110,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     }
 
     private void inscribirse() {
-        String email = sessionManager.getEmail();
-        dbHelper.inscribir(email, curso.getId());
+        dbHelper.inscribir(sessionManager.getEmail(), curso.getId());
         actualizarBoton();
         Toast.makeText(this, "¡Inscripción exitosa!", Toast.LENGTH_SHORT).show();
         enviarNotificacion();
@@ -115,20 +119,16 @@ public class CourseDetailActivity extends AppCompatActivity {
     private void enviarNotificacion() {
         String channelId = "novalearn_channel";
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    channelId, "NovaLearn", NotificationManager.IMPORTANCE_DEFAULT);
-            nm.createNotificationChannel(channel);
+            nm.createNotificationChannel(new NotificationChannel(
+                    channelId, "NovaLearn", NotificationManager.IMPORTANCE_DEFAULT));
         }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("¡Inscripción exitosa!")
-                .setContentText("Te inscribiste a: " + curso.getNombre())
-                .setAutoCancel(true);
-
-        nm.notify((int) System.currentTimeMillis(), builder.build());
+        nm.notify((int) System.currentTimeMillis(),
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setContentTitle("¡Inscripción exitosa!")
+                        .setContentText("Te inscribiste a: " + curso.getNombre())
+                        .setAutoCancel(true).build());
     }
 
     @Override
